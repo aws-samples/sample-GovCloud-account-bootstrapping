@@ -1,0 +1,23 @@
+openapi: "3.0.1"
+info:
+  title: "process_new_gc_acct"
+  description: "Receives new GC account ID from commercial partition"
+  version: "2026-08-04 15:55:08UTC"
+servers:
+- url: "https://dkdtxmoeak.execute-api.us-gov-west-1.amazonaws.com/{basePath}"
+  variables:
+    basePath:
+      default: ""
+paths:
+  /ingest:
+    post:
+      responses:
+        default:
+          description: "Default response for POST /ingest"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws-us-gov:apigateway:us-gov-west-1:lambda:path/2015-03-31/functions/arn:aws-us-gov:lambda:us-gov-west-1:gc-mgmt-acct-id:function:process_new_gc_acct/invocations"
+        connectionType: "INTERNET"
+x-amazon-apigateway-importexport-version: "1.0"

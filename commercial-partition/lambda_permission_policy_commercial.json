@@ -1,0 +1,44 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CloudWatchLogs",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:us-east-1:commercial-mgmt-acct-id:log-group:/aws/lambda/create_gc_acct:*"
+    },
+    {
+      "Sid": "SSM",
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": "arn:aws:ssm:us-east-1:commercial-mgmt-acct-id:parameter/cross_partition_api_key"
+    },
+    {
+      "Sid": "KMS",
+      "Effect": "Allow",
+      "Action": "kms:Decrypt",
+      "Resource": "arn:aws:kms:us-east-1:commercial-mgmt-acct-id:key/*",
+      "Condition": {
+        "StringEquals": {
+          "kms:ViaService": "ssm.us-east-1.amazonaws.com"
+        }
+      }
+    },
+    {
+      "Sid": "Organizations",
+      "Effect": "Allow",
+      "Action": [
+        "organizations:DescribeCreateAccountStatus",
+        "organizations:ListRoots",
+        "organizations:ListOrganizationalUnitsForParent",
+        "organizations:CreateGovCloudAccount",
+        "organizations:MoveAccount"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

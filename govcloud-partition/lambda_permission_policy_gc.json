@@ -1,0 +1,51 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CloudWatchLogs",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws-us-gov:logs:us-gov-west-1:govcloud-mgmt-acct-id:log-group:/aws/lambda/process_new_gc_acct:*"
+    },
+    {
+      "Sid": "SSM",
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": "arn:aws-us-gov:ssm:us-gov-west-1:govcloud-mgmt-acct-id:parameter/cross_partition_api_key"
+    },
+    {
+      "Sid": "KMS",
+      "Effect": "Allow",
+      "Action": "kms:Decrypt",
+      "Resource": "arn:aws-us-gov:kms:us-gov-west-1:govcloud-mgmt-acct-id:key/*",
+      "Condition": {
+        "StringEquals": {
+          "kms:ViaService": "ssm.us-gov-west-1.amazonaws.com"
+        }
+      }
+    },
+    {
+      "Sid": "Organizations",
+      "Effect": "Allow",
+      "Action": [
+        "organizations:DescribeHandshake",
+        "organizations:ListRoots",
+        "organizations:ListOrganizationalUnitsForParent",
+        "organizations:InviteAccountToOrganization",
+        "organizations:AcceptHandshake",
+        "organizations:MoveAccount"
+      ],
+      "Resource":  "*"
+    },
+    {
+      "Sid": "STS",
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Resource": "arn:aws-us-gov:iam::*:role/OrganizationAccountAccessRole"
+    }
+  ]
+}
